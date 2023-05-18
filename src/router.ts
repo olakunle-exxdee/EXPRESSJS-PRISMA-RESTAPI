@@ -40,16 +40,17 @@ router.get('/update/:id', getOneUpdate);
 router.put(
   '/update/:id',
   body('title').optional(),
-  body('body').optional,
+  body('body').optional(),
   body('status').isIn(['IN_PROGRESS', 'SHIPPED', ' DEPRECATED']).optional(),
-  body('version').optional,
+  body('version').optional(),
+  handleInputErrors,
   updateUpdate
 );
 router.post(
   '/update',
+  body('productId').exists(),
   body('title').exists().isString(),
   body('body').exists().isString(),
-  body('productId').exists,
   createUpdate
 );
 router.delete('/update/:id', deleteUpdate);
@@ -75,5 +76,10 @@ router.post(
   handleInputErrors
 );
 router.delete('/updatepoint/:id');
+
+router.use((err, req, res, next) => {
+  console.log(err);
+  res.json({ message: 'interver error' });
+});
 
 export default router;

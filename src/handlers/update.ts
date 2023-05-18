@@ -1,4 +1,5 @@
 import prisma from '../db';
+import express, { Request, Response } from 'express';
 
 export const getOneUpdate = async (req, res) => {
   const id = req.params.id;
@@ -26,23 +27,27 @@ export const getAllUpdates = async (req, res) => {
   res.json({ data: updates });
 };
 export const createUpdate = async (req, res) => {
-  const { productId, ...rest } = req.body;
-  const product = await prisma.update.findUnique({
+  const product = await prisma.product.findUnique({
     where: {
-      id: productId,
+      id: req.body.productId,
     },
   });
+
   if (!product) {
-    return res.json({
-      message: 'Nope',
-    });
+    return res.json({ message: 'Nope' });
   }
+
   const update = await prisma.update.create({
-    data: rest,
+    data: {
+      title: req.body.title,
+      body: req.body.body,
+      product: { connect: { id: product.id } },
+    },
   });
 
   res.json({ data: update });
 };
+
 export const updateUpdate = async (req, res) => {
   const product = await prisma.product.findMany({
     where: {
