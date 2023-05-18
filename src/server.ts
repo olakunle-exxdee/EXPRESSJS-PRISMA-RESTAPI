@@ -17,7 +17,6 @@ app.use((req, res, next): void => {
 });
 
 app.get('/', (req, res) => {
-  console.log('hello from expree');
   res.status(200);
   res.json({ message: 'hello' });
 });
