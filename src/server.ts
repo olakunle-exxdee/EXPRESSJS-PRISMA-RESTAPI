@@ -12,9 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use((req, res, next) => {
-  res.json({ message: 'hello' });
-});
 
 app.get('/', (req, res) => {
   res.status(200);
